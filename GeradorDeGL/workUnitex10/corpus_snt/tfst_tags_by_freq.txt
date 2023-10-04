@@ -1,0 +1,4 @@
+0,250000	{Para,para.PFX}
+0,250000	{Para,para.PREP}
+0,250000	{Para,parar.V:P3s}
+0,250000	{Para,parar.V:Y2s}

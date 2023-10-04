@@ -1,0 +1,1 @@
+({Aquela,aquele.PRO+Dem:fs}|{Aquela,aquele.N:fs}|{Aquela,aquelar.V:P3s}|{Aquela,aquelar.V:Y2s})

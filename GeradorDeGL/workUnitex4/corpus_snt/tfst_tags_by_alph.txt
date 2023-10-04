@@ -1,0 +1,2 @@
+{Meu,eu.PRO+Pos:1ms}	0,500000
+{Meu,meu.N:ms}	0,500000

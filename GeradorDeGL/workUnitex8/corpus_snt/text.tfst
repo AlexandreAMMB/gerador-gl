@@ -1,0 +1,27 @@
+0000000001
+$1
+Para
+0/4
+0_0
+: 1 1 2 1 3 1 4 1
+t
+f
+@<E>
+.
+@STD
+@{Para,para.PFX}
+@0.0.0-0.3.0
+.
+@STD
+@{Para,para.PREP}
+@0.0.0-0.3.0
+.
+@STD
+@{Para,parar.V:P3s}
+@0.0.0-0.3.0
+.
+@STD
+@{Para,parar.V:Y2s}
+@0.0.0-0.3.0
+.
+f

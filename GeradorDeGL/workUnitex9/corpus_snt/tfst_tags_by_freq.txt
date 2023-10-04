@@ -1,0 +1,2 @@
+0,500000	{Houve,haver.V:J1s}
+0,500000	{Houve,haver.V:J3s}

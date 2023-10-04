@@ -1,0 +1,3 @@
+{Permita-me,permitir.V+PRO:S1s}	0,333333
+{Permita-me,permitir.V+PRO:S3s}	0,333333
+{Permita-me,permitir.V+PRO:Y3s}	0,333333

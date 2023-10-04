@@ -1,0 +1,23 @@
+0000000001
+$1
+Permita-me
+0/7 1/1 2/2
+0_0
+: 1 1 2 1 3 1
+t
+f
+@<E>
+.
+@STD
+@{Permita-me,permitir.V+PRO:Y3s}
+@0.0.0-2.1.0
+.
+@STD
+@{Permita-me,permitir.V+PRO:S3s}
+@0.0.0-2.1.0
+.
+@STD
+@{Permita-me,permitir.V+PRO:S1s}
+@0.0.0-2.1.0
+.
+f

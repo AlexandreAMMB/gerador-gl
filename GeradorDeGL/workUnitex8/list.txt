@@ -1,0 +1,1 @@
+({Para,parar.V:Y2s}|{Para,parar.V:P3s}|{Para,para.PREP}|{Para,para.PFX})

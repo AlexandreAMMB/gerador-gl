@@ -1,0 +1,4 @@
+0,250000	{Aquela,aquelar.V:P3s}
+0,250000	{Aquela,aquelar.V:Y2s}
+0,250000	{Aquela,aquele.N:fs}
+0,250000	{Aquela,aquele.PRO+Dem:fs}

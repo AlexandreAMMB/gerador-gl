@@ -1,0 +1,1 @@
+({Não,não.N:ms}|{Não,não.ADV})
