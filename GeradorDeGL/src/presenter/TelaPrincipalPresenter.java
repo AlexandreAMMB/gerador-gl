@@ -21,6 +21,7 @@ public class TelaPrincipalPresenter {
     private TelaPrincipalView view;
     private ExemplosCollection exemplosCollection;
     private String textPath;
+    private String caminhoTexto;
     
     public static void main(String args[]) {
         System.setProperty("java.library.path", System.getProperty("user.dir"));
@@ -92,7 +93,8 @@ public class TelaPrincipalPresenter {
         exemplosCollection.limparExemplos();
         
         try {
-           new SeletorArquivoPresenter(this);
+           SeletorArquivoPresenter seletorArquivoPresenter = new SeletorArquivoPresenter(this);
+           this.caminhoTexto = seletorArquivoPresenter.getCaminhoArquivo();
             
        } catch (IOException ex) {
            Logger.getLogger(TelaPrincipalPresenter.class.getName()).log(Level.SEVERE, null, ex);
@@ -166,9 +168,10 @@ public class TelaPrincipalPresenter {
         GrafosPresenter grafosPresenter = new GrafosPresenter();
         try {
             grafosPresenter.constructGraph();
+            grafosPresenter.runGraph(this.caminhoTexto);
         } catch (Exception ex) {
+            ex.printStackTrace();
            JOptionPane.showMessageDialog(null, ex.getMessage());
-           System.out.println(ex.getMessage());
         }
     }
 }

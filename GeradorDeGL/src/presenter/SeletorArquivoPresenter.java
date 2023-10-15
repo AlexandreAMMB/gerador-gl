@@ -2,13 +2,14 @@ package presenter;
 
 import dao.AbrirArquivoTexto;
 import java.io.IOException;
+import java.nio.file.Path;
 import view.SeletorArquivoView;
 
 
 public class SeletorArquivoPresenter {
     
     private SeletorArquivoView seletorView;
-    
+    private Path caminhoArquivo;
 
     public SeletorArquivoPresenter(TelaPrincipalPresenter principalView) throws IOException {
         
@@ -28,8 +29,14 @@ public class SeletorArquivoPresenter {
            principalView.escreverTextoNaCaixa(
                    new AbrirArquivoTexto().lerArquivo(seletorView
                            .getSelecionadorDeArquivo().getSelectedFile().toPath()));
+           this.caminhoArquivo = seletorView
+                           .getSelecionadorDeArquivo().getSelectedFile().toPath();
            
         }
+    }
+    
+    public String getCaminhoArquivo() {
+        return this.caminhoArquivo.toString();
     }
     
 }

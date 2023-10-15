@@ -25,7 +25,7 @@ public class GrafosPresenter {
     private static ArrayList<Event>  events;
     private static ArrayList<Episode> episodes;
     private Graph graph;
-    
+    private File selectedPath;
     
     public GrafosPresenter() {
         
@@ -102,13 +102,18 @@ public class GrafosPresenter {
     public void saveGraph() throws IOException {
         
         DirectorySelectorPresenter selector = new DirectorySelectorPresenter();
-        File slectedPath = selector.selectFolder();
+        this.selectedPath = selector.selectFolder();
         
-        if(slectedPath == null){
+        if(selectedPath == null){
             selector.dispose();
             selector = null;
         } else {
-            File newFile = new File(slectedPath.toString() + ".grf");
+            File newFile;
+            if(selectedPath.toString().contains(".grf")) {
+                newFile = new File(selectedPath.toString());
+            } else {
+                newFile = new File(selectedPath.toString() + ".grf");
+            }
             FileWriter newFileWriter = new FileWriter(newFile);       
             BufferedWriter bWriter = new BufferedWriter(newFileWriter);
             bWriter.write(graph.getGraph());
@@ -118,6 +123,31 @@ public class GrafosPresenter {
         }
     }
 
+    public void runGraph(String caminhoTexto) throws IOException {
+        
+        String caminhoGrafo;
+        if(selectedPath.toString().contains(".grf")) {
+            caminhoGrafo = selectedPath.toString();
+        } else {
+            caminhoGrafo = selectedPath.toString() + ".grf";
+        }
+        String rotinaUnitex = "./src/rotinaUnitex.sh " + caminhoTexto + " " + caminhoGrafo + " Ocorrências.txt";
+        //System.out.println(caminhoTexto);
+        //System.out.println(caminhoGrafo);
+        
+        try {
+            Process processo = Runtime.getRuntime().exec(rotinaUnitex);
+            
+            int status = processo.waitFor();
+            if(status == 0) {
+                System.out.println("Sucesso em rodar!");
+            } else {
+                System.out.println("Erro em rodar:" + status);
+            }
+        } catch(IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
     
     public static void addEvent(Event eventp ){
         events.add(eventp);
