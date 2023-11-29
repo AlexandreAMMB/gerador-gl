@@ -110,7 +110,7 @@ public class UnitexFunctions {
         return xml;
     }
     
-    public void configUnitex(String [] args, String text, int nbCosrpusWorkPath) {
+    public void configUnitex(String [] args, String text, int nbCosrpusWorkPath) {  //nbCorpusWorkPath
         
         System.out.println("is ms-windows:" + UnitexJni.isUnderWindows() + " : " + System.getProperty("os.name") + " " + java.io.File.separator);
         System.out.println("Usage : UnitexJniDemo [ressource_dir] [base_work_dir] [nb_loop] [param]");

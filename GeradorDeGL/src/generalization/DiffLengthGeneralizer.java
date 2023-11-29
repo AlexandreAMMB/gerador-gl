@@ -29,6 +29,8 @@ public class DiffLengthGeneralizer {
             episodiosEmCodigos.add(transformarEpisodiosEmCodigos(episodio));
         }
         
+        System.out.println(episodiosEmCodigos);
+        
         ObterFrequenciaEmEpisodios(episodiosEmCodigos);
         
         return GerarEpisodiosMesmoTamanho(episodiosEmCodigos, episodios);
@@ -147,7 +149,9 @@ public class DiffLengthGeneralizer {
                 
                 
                 for(int k = 0; episodiosEmCodigos.get(p) != null && k < episodiosEmCodigos.get(p).size(); k++) {
-                    
+                    System.out.println("k = " + k);
+                    System.out.println("codigo = " + codigo);
+                    System.out.println("episodios = " + episodiosEmCodigos.get(p).get(k));
                     if(codigo.equals(episodiosEmCodigos.get(p).get(k))) {
                         
                         tam++;

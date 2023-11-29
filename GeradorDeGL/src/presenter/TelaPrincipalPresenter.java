@@ -5,15 +5,21 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.YES_NO_OPTION;
 import javax.swing.event.ChangeEvent;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
+import opennlp.tools.sentdetect.SentenceDetectorME;
+import opennlp.tools.sentdetect.SentenceModel;
+import opennlp.tools.tokenize.TokenizerME;
+import opennlp.tools.tokenize.TokenizerModel;
 import view.TelaPrincipalView;
 
 public class TelaPrincipalPresenter {
@@ -21,6 +27,7 @@ public class TelaPrincipalPresenter {
     private TelaPrincipalView view;
     private ExemplosCollection exemplosCollection;
     private String textPath;
+    private String caminhoTexto;    
     
     public static void main(String args[]) {
         System.setProperty("java.library.path", System.getProperty("user.dir"));
@@ -92,7 +99,8 @@ public class TelaPrincipalPresenter {
         exemplosCollection.limparExemplos();
         
         try {
-           new SeletorArquivoPresenter(this);
+           SeletorArquivoPresenter seletorArquivoPresenter = new SeletorArquivoPresenter(this);
+           this.caminhoTexto = seletorArquivoPresenter.getCaminhoArquivo();
             
        } catch (IOException ex) {
            Logger.getLogger(TelaPrincipalPresenter.class.getName()).log(Level.SEVERE, null, ex);
@@ -166,9 +174,18 @@ public class TelaPrincipalPresenter {
         GrafosPresenter grafosPresenter = new GrafosPresenter();
         try {
             grafosPresenter.constructGraph();
+            if(JOptionPane.showConfirmDialog(view,
+                    "Deseja utilizar a GL gerada no texto utilizado como base?",
+                    "Executar GL Gerada?", 
+                    YES_NO_OPTION) == 0) {
+                grafosPresenter.runGraph(this.caminhoTexto);
+            }
+            
+            //tokenizarSentencas(detectarSentencas());
+            
         } catch (Exception ex) {
+            ex.printStackTrace();
            JOptionPane.showMessageDialog(null, ex.getMessage());
-           System.out.println(ex.getMessage());
         }
     }
 }
