@@ -9,7 +9,12 @@ nomeGrafo=$3
 saida=$4
 
 #pasta="${grafo}_snt"
-pasta="${grafo%/*}/${nomeGrafo}_snt"
+
+auxiliar="${grafo%/*}/${nomeGrafo}"
+
+mkdir "${auxiliar}"
+
+pasta="${auxiliar}/${nomeGrafo}_snt"
 
 mkdir "${pasta}" #Cria o diretório onde a análise é realizada
 
@@ -47,9 +52,9 @@ cat "${original}.txt" > "${texto}.txt"
 #--------INICIO APLICAÇÃO DE GL NO TEXTO--------
 "/home/${USER}/Unitex-GramLab-3.3/App/UnitexToolLogger" Grf2Fst2 "${grafo}.grf" -y "--alphabet=/home/${USER}/workspace/Unitex-GramLab/Unitex/Portuguese (Brazil)/Alphabet.txt" -qutf8-no-bom
 
-"/home/${USER}/Unitex-GramLab-3.3/App/UnitexToolLogger" Locate "-t${texto}.snt" "${grafo}.fst2" "-a/home/${USER}/workspace/Unitex-GramLab/Unitex/Portuguese (Brazil)/Alphabet.txt" -L -I -n200 -b -Y --stack_max=1000 --max_matches_per_subgraph=200 --max_matches_at_token_pos=400 --max_errors=50 -qutf8-no-bom
+#"/home/${USER}/Unitex-GramLab-3.3/App/UnitexToolLogger" Locate "-t${texto}.snt" "${grafo}.fst2" "-a/home/${USER}/workspace/Unitex-GramLab/Unitex/Portuguese (Brazil)/Alphabet.txt" -L -I -n200 -b -Y --stack_max=1000 --max_matches_per_subgraph=200 --max_matches_at_token_pos=400 --max_errors=50 -qutf8-no-bom
 
-#"/home/${USER}/Unitex-GramLab-3.3/App/UnitexToolLogger" Locate "-t${texto}.snt" "${grafo}.fst2" "-a/home/${USER}/workspace/Unitex-GramLab/Unitex/Portuguese (Brazil)/Alphabet.txt" -L -I --all -b -Y --stack_max=1000 --max_matches_per_subgraph=200 --max_matches_at_token_pos=400 --max_errors=50 -qutf8-no-bom
+"/home/${USER}/Unitex-GramLab-3.3/App/UnitexToolLogger" Locate "-t${texto}.snt" "${grafo}.fst2" "-a/home/${USER}/workspace/Unitex-GramLab/Unitex/Portuguese (Brazil)/Alphabet.txt" -L -I --all -b -Y --stack_max=1000 --max_matches_per_subgraph=200 --max_matches_at_token_pos=400 --max_errors=50 -qutf8-no-bom
 
 "/home/${USER}/Unitex-GramLab-3.3/App/UnitexToolLogger" Concord "${pasta}/concord.ind" "-fCourier new" -s12 -l40 -r55 --html "-a/home/${USER}/workspace/Unitex-GramLab/Unitex/Portuguese (Brazil)/Alphabet_sort.txt" --CL -qutf8-no-bom
 
@@ -62,6 +67,11 @@ cat "${original}.txt" > "${texto}.txt"
 "/home/${USER}/Unitex-GramLab-3.3/App/UnitexToolLogger" Concord "${pasta}/concord.ind" "-m${pasta}/r_textoAnalisado.txt" -t -qutf8-no-bom
 
 #--------FIM APLICAÇÃO DE GL----------
+
+#--------GUARDAR .GRF E .FST2 NA PASTA DE RESULTADO--------
+mv "${grafo}.grf" "${pasta}/../" 
+
+mv "${grafo}.fst2" "${pasta}/../"
 
 #--------GUARDAR AS CORRESPONDENCIAS ENCONTRADAS NO ARQUIVO DE SAIDA-------------
 #cat "${pasta}/r_textoAnalisado.txt" > "${pasta}/../${saida}"

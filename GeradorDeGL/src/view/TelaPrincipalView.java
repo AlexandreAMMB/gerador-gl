@@ -107,7 +107,7 @@ public class TelaPrincipalView extends javax.swing.JFrame {
         exibirExemplosOp.setText("Exibir Exemplos");
         exemplosMenu.add(exibirExemplosOp);
 
-        limparExemplosOption.setText("LimparExemplos");
+        limparExemplosOption.setText("Limpar Exemplos");
         exemplosMenu.add(limparExemplosOption);
 
         jMenuBar1.add(exemplosMenu);

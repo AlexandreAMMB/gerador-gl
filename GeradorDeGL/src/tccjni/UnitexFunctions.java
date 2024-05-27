@@ -35,37 +35,43 @@ public class UnitexFunctions {
         return null;
     }
     
-    public void NormalizeGrf(String othersResDir,String workingDicoFileName, String workingGraphFileName,String workingNormGrfFileName,String corpusPath,String corpusText){
+    public void NormalizeGrf(String othersResDir, String workingGraphFileName,String workingNormGrfFileName,String corpusPath,String corpusText){
         String cmdNorm = "Normalize " + UnitexJni.combineUnitexFileComponentWithQuote(corpusPath,"corpus.txt") + " -r "+UnitexJni.combineUnitexFileComponentWithQuote(othersResDir,"Norm.txt") + " --output_offsets="+ UnitexJni.combineUnitexFileComponentWithQuote(corpusPath,"offset1.txt") ;
         UnitexJni.execUnitexTool("UnitexTool " + cmdNorm);
     }
       
-    public void Tokenize(String othersResDir,String workingDicoFileName, String workingGraphFileName,String workingNormGrfFileName,String corpusPath,String corpusText){
+    public void Tokenize(String othersResDir, String workingGraphFileName,String workingNormGrfFileName,String corpusPath,String corpusText){
         String cmdTok = "Tokenize " + UnitexJni.combineUnitexFileComponentWithQuote(corpusPath,"corpus.txt") + " -a "+ UnitexJni.combineUnitexFileComponentWithQuote(othersResDir,"Alphabet.txt") + " --input_offsets="+ UnitexJni.combineUnitexFileComponentWithQuote(corpusPath,"offset1.txt") + " --output_offsets="+ UnitexJni.combineUnitexFileComponentWithQuote(corpusPath,"offset2.txt") ;
         UnitexJni.execUnitexTool("UnitexTool " + cmdTok);
     }
      
-    public void Dico(String othersResDir,String workingDicoFileName, String workingGraphFileName,String workingNormGrfFileName,String corpusPath,String corpusText){
-        String cmdDico = "Dico -t "+ UnitexJni.combineUnitexFileComponentWithQuote(corpusPath,"corpus.snt")+ " -a " + UnitexJni.combineUnitexFileComponentWithQuote(othersResDir,"Alphabet.txt")+" "+UnitexJni.combineUnitexFileComponentWithQuote(workingDicoFileName);
-        UnitexJni.execUnitexTool("UnitexTool " + cmdDico); 
+    //public void Dico(String othersResDir,String workingDicoFileName, String workingGraphFileName,String workingNormGrfFileName,String corpusPath,String corpusText){
+    public void Dico(String othersResDir, ArrayList<String> workingDicoFileNames, String workingGraphFileName,String workingNormGrfFileName,String corpusPath,String corpusText){
+        //String cmdDico = "Dico -t "+ UnitexJni.combineUnitexFileComponentWithQuote(corpusPath,"corpus.snt")+ " -a " + UnitexJni.combineUnitexFileComponentWithQuote(othersResDir,"Alphabet.txt")+" "+UnitexJni.combineUnitexFileComponentWithQuote(workingDicoFileName)+" "+UnitexJni.combineUnitexFileComponent(workingDicoFileName);
+        String cmdDico = "Dico -t "+ UnitexJni.combineUnitexFileComponentWithQuote(corpusPath,"corpus.snt")+ " -a " + UnitexJni.combineUnitexFileComponentWithQuote(othersResDir,"Alphabet.txt");
+        for(String workingDicoFileName : workingDicoFileNames) {
+            //cmdDico += " " + UnitexJni.combineUnitexFileComponentWithQuote(workingDicoFileName);
+            UnitexJni.execUnitexTool("UnitexTool " + cmdDico + " " + UnitexJni.combineUnitexFileComponentWithQuote(workingDicoFileName)); 
+        }
+        //UnitexJni.execUnitexTool("UnitexTool " + cmdDico); 
     }
       
-    public void Txt2Tfst(String othersResDir,String workingDicoFileName, String workingGraphFileName,String workingNormGrfFileName,String corpusPath,String corpusText){
+    public void Txt2Tfst(String othersResDir, String workingGraphFileName,String workingNormGrfFileName,String corpusPath,String corpusText){
        String cmdTxt2Tfst = "Txt2Tfst " + UnitexJni.combineUnitexFileComponentWithQuote(corpusPath,"corpus.snt")+" -a " + UnitexJni.combineUnitexFileComponentWithQuote(othersResDir,"Alphabet.txt") + " --clean"+" -qutf8-no-bom"; 
        UnitexJni.execUnitexTool("UnitexTool " + cmdTxt2Tfst);
     }
       
-    public void Tfst2Grf(String othersResDir,String workingDicoFileName, String workingGraphFileName,String workingNormGrfFileName,String corpusPath,String corpusText){
+    public void Tfst2Grf(String othersResDir, String workingGraphFileName,String workingNormGrfFileName,String corpusPath,String corpusText){
         String cmdTfst2Grf = "Tfst2Grf " + UnitexJni.combineUnitexFileComponentWithQuote(UnitexJni.combineUnitexFileComponent(corpusPath,"corpus_snt"),"text.tfst")+" -s1 -qutf8-no-bom";
         UnitexJni.execUnitexTool("UnitexTool " + cmdTfst2Grf);
     }
     
-    public void Grf2Fst2(String othersResDir,String workingDicoFileName, String workingGraphFileName,String workingNormGrfFileName,String corpusPath,String corpusText){
+    public void Grf2Fst2(String othersResDir, String workingGraphFileName,String workingNormGrfFileName,String corpusPath,String corpusText){
         String cmdGrf2Fst2 = "Grf2Fst2 " + UnitexJni.combineUnitexFileComponentWithQuote(UnitexJni.combineUnitexFileComponent(corpusPath,"corpus_snt"),"cursentence.grf");
         UnitexJni.execUnitexTool("UnitexTool " + cmdGrf2Fst2);
     }
       
-    public void Fst2List(String othersResDir,String workingDicoFileName, String workingGraphFileName,String workingNormGrfFileName,String corpusPath,String corpusText){
+    public void Fst2List(String othersResDir, String workingGraphFileName,String workingNormGrfFileName,String corpusPath,String corpusText){
         String cmdFst2List = "Fst2List "+"-l 1000 -a s -o "+UnitexJni.combineUnitexFileComponent(corpusPath, "list.txt")+" "+ UnitexJni.combineUnitexFileComponentWithQuote(UnitexJni.combineUnitexFileComponent(corpusPath,"corpus_snt"),"cursentence.fst2");
         UnitexJni.execUnitexTool("UnitexTool " + cmdFst2List);
     }
@@ -87,20 +93,21 @@ public class UnitexFunctions {
         String cmConcord = "Concord" + UnitexJni.combineUnitexFileComponentWithQuote(corpusPath,"concord.ind") + "-fCourier new" + "-s12 -l40 -r55 --html" + " -a "+ UnitexJni.combineUnitexFileComponentWithQuote(othersResDir,"Alphabet.txt") + "--CL -qutf8-no-bom";
     }
       
-    private String processUnitexWork(String othersResDir,String workingDicoFileName, String workingGraphFileName,String workingNormGrfFileName,String corpusPath,String corpusText) {
+    //private String processUnitexWork(String othersResDir,String workingDicoFileName, String workingGraphFileName,String workingNormGrfFileName,String corpusPath,String corpusText) {
+    private String processUnitexWork(String othersResDir, ArrayList<String> workingDicoFileNames, String workingGraphFileName,String workingNormGrfFileName,String corpusPath,String corpusText) {
         
         String pSep = pathSeparator;
         UnitexJni.writeUnitexFile(UnitexJni.combineUnitexFileComponent(corpusPath,"corpus.txt"),corpusText);
 		  
         // We create offsets file offset1.txt and offset2.txt to get position against the original corpus in the xml file
-        NormalizeGrf(othersResDir, workingDicoFileName, workingGraphFileName, workingNormGrfFileName, corpusPath, corpusText);
-        Tokenize(othersResDir, workingDicoFileName, workingGraphFileName, workingNormGrfFileName, corpusPath, corpusText);
-        Dico(othersResDir, workingDicoFileName, workingGraphFileName, workingNormGrfFileName, corpusPath, corpusText);
-        Txt2Tfst(othersResDir, workingDicoFileName, workingGraphFileName, workingNormGrfFileName, corpusPath, corpusText);
+        NormalizeGrf(othersResDir, workingGraphFileName, workingNormGrfFileName, corpusPath, corpusText);
+        Tokenize(othersResDir, workingGraphFileName, workingNormGrfFileName, corpusPath, corpusText);
+        Dico(othersResDir, workingDicoFileNames, workingGraphFileName, workingNormGrfFileName, corpusPath, corpusText);
+        Txt2Tfst(othersResDir, workingGraphFileName, workingNormGrfFileName, corpusPath, corpusText);
           
         // ImplodeTfst(corpusPath);
           
-        Tfst2Grf(othersResDir, workingDicoFileName, workingGraphFileName, workingNormGrfFileName, corpusPath, corpusText);
+        Tfst2Grf(othersResDir, workingGraphFileName, workingNormGrfFileName, corpusPath, corpusText);
         // Grf2Fst2(othersResDir, workingDicoFileName, workingGraphFileName, workingNormGrfFileName, corpusPath, corpusText);
         // Fst2List(othersResDir, workingDicoFileName, workingGraphFileName, workingNormGrfFileName, corpusPath, corpusText);
           
@@ -172,12 +179,22 @@ public class UnitexFunctions {
             
             othersResDir = PrefixVFS + othersResDir;
 
-            if (!fusepersist) {
-                
-                UnitexJni.copyUnitexFile(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "DELAF_PB_2015.bin"),
-                        UnitexJni.combineUnitexFileComponent(PrefixVFS + dictionnaryResDir, "DELAF_PB_2015.bin"));
-                UnitexJni.copyUnitexFile(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "DELAF_PB_2015.inf"),
-                        UnitexJni.combineUnitexFileComponent(PrefixVFS + dictionnaryResDir, "DELAF_PB_2015.inf"));
+            if (!fusepersist) {                
+                //UnitexJni.copyUnitexFile(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "DELAF_PB_2015.bin"),
+                //        UnitexJni.combineUnitexFileComponent(PrefixVFS + dictionnaryResDir, "DELAF_PB_2015.bin"));
+                //UnitexJni.copyUnitexFile(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "DELAF_PB_2015.inf"),
+                //        UnitexJni.combineUnitexFileComponent(PrefixVFS + dictionnaryResDir, "DELAF_PB_2015.inf"));
+                //-----------------------
+                UnitexJni.copyUnitexFile(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "DELACF_PB.bin"),
+                        UnitexJni.combineUnitexFileComponent(PrefixVFS + dictionnaryResDir, "DELACF_PB.bin"));
+                UnitexJni.copyUnitexFile(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "DELACF_PB.inf"),
+                        UnitexJni.combineUnitexFileComponent(PrefixVFS + dictionnaryResDir, "DELACF_PB.inf"));
+                UnitexJni.copyUnitexFile(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "DELAF_PB_2018.bin"),
+                        UnitexJni.combineUnitexFileComponent(PrefixVFS + dictionnaryResDir, "DELAF_PB_2018.bin"));
+                UnitexJni.copyUnitexFile(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "DELAF_PB_2018.inf"),
+                        UnitexJni.combineUnitexFileComponent(PrefixVFS + dictionnaryResDir, "DELAF_PB_2018.inf"));
+                UnitexJni.copyUnitexFile(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "Dnum.fst2"),
+                        UnitexJni.combineUnitexFileComponent(PrefixVFS + dictionnaryResDir, "Dnum.fst2"));
                 dictionnaryResDir = PrefixVFS + dictionnaryResDir;
 
                 UnitexJni.copyUnitexFile(UnitexJni.combineUnitexFileComponent(graphResDir, "AAA-hours-demo.fst2"),
@@ -186,19 +203,29 @@ public class UnitexFunctions {
             }
         }
 
-        String dicoFileName = UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "DELAF_PB_2015.bin");
+        //String dicoFileName = UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "DELAF_PB_2015.bin");
+        //--------------------
+        ArrayList<String> dicoFileNames = new ArrayList();
+        dicoFileNames.add(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "DELAF_PB.bin"));
+        dicoFileNames.add(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "abrev-sigl.bin"));
+        dicoFileNames.add(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "DELACF_PB.bin"));
+        dicoFileNames.add(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "DELAF_PB_2018.bin"));
+        dicoFileNames.add(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "dela-en-public.bin"));
+        dicoFileNames.add(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "Dnum.fst2"));
+        dicoFileNames.add(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "DELAF_PB_2015.bin"));
         String graphFileName = UnitexJni.combineUnitexFileComponent(graphResDir, "AAA-hours-demo.fst2");
         String normGrfFileName = UnitexJni.combineUnitexFileComponent(normResDir, "Norm.fst2");
         String workingGraphFileName;
-        String workingDicoFileName;
+        ArrayList<String> workingDicoFileNames = new ArrayList();
         
         if (fusepersist) {
-            
-            workingDicoFileName = UnitexJni.loadPersistentDictionary(dicoFileName);
+            for(String dicoFileName : dicoFileNames) {
+                workingDicoFileNames.add(UnitexJni.loadPersistentDictionary(dicoFileName));
+            }
             workingGraphFileName = UnitexJni.loadPersistentFst2(graphFileName);
         } else {
             
-            workingDicoFileName = dicoFileName;
+            workingDicoFileNames = dicoFileNames;
             workingGraphFileName = graphFileName;
         }
 
@@ -216,7 +243,7 @@ public class UnitexFunctions {
         
         for (int i = 0; i < nbLoop; i++) {
             System.out.println(text);
-            res = processUnitexWork(othersResDir, workingDicoFileName, workingGraphFileName, normGrfFileName, CorpusWorkPath, text);
+            res = processUnitexWork(othersResDir, workingDicoFileNames, workingGraphFileName, normGrfFileName, CorpusWorkPath, text);
         }
         
         long endT = System.currentTimeMillis();
@@ -225,7 +252,9 @@ public class UnitexFunctions {
         // UnitexJni.removeUnitexFolder(CorpusWorkPath);
 
         if (fusepersist) {
-            UnitexJni.freePersistentDictionary(workingDicoFileName);
+            for(String workingDicoFileName : workingDicoFileNames) {
+                UnitexJni.freePersistentDictionary(workingDicoFileName);
+            }
             UnitexJni.freePersistentFst2(workingGraphFileName);
         }
         

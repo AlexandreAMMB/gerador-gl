@@ -39,7 +39,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="limparExemplosOption">
               <Properties>
-                <Property name="text" type="java.lang.String" value="LimparExemplos"/>
+                <Property name="text" type="java.lang.String" value="Limpar Exemplos"/>
               </Properties>
             </MenuItem>
           </SubComponents>

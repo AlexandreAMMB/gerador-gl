@@ -30,6 +30,7 @@ public class Graph {
         
         File fileToBeModified = new File(caminho);
         String oldContent = "";
+        String stateContent = "";
         BufferedReader reader = new BufferedReader(new FileReader(caminho));
         String line = reader.readLine();
         
@@ -52,7 +53,7 @@ public class Graph {
         //palavraReconhecida posicaoX posicaoY numTransicoesSaída nosAlcançaveis
 
         //initial state
-        oldContent = oldContent + "\"<E>\"" + " 20" + " 300 " + solution.get(0).size();
+        oldContent = oldContent + "\"<E>\"" + " 20" + " 200 " + solution.get(0).size();
         for(String chaves : solution.get(0).keySet()){
             oldContent = oldContent + " " + (currentStateNumber + 1);
             currentStateNumber++;
@@ -60,11 +61,9 @@ public class Graph {
         oldContent = oldContent + " " + System.lineSeparator();
         
         currentStateNumber = 2;
-        //final node
-        oldContent = oldContent + "\" \" " + "1000 " + "300 " + "0 " + System.lineSeparator();
         int xAxle = 50;
         for(int i = 0; i < solutionSize; i++) {
-            int yAxle = 30;
+            int yAxle = 200;
             if(i < solutionSize - 1) {
                 String estadosFilhos = "";
                 int localStateNumber = currentStateNumber + solution.get(i).size();
@@ -74,7 +73,7 @@ public class Graph {
                 }
                 
                 for(String chave : solution.get(i).keySet()) {
-                    oldContent = oldContent + "\"" + chave + "\" " + xAxle +" " + yAxle + " " + 
+                    stateContent = stateContent + "\"" + chave + "\" " + xAxle +" " + yAxle + " " + 
                             solution.get(i+1).size() + estadosFilhos + " " + System.lineSeparator();
                     currentStateNumber++;
                     yAxle = yAxle + 50;
@@ -82,14 +81,18 @@ public class Graph {
                 
            } else {
                 for(String chave : solution.get(i).keySet()) {
-                    oldContent = oldContent + "\"" + chave + "\" " + xAxle + " " + yAxle + " " + 
+                    stateContent = stateContent + "\"" + chave + "\" " + xAxle + " " + yAxle + " " + 
                             1 + " " + 1 + " " + System.lineSeparator();
                     yAxle = yAxle + 50;
                 }
             }
             
-            xAxle = xAxle + 50;
+            xAxle = xAxle + 200;
         }
+        //final node
+        oldContent = oldContent + "\" \" " + (200 * currentStateNumber) + " 200 " + "0 " + System.lineSeparator();
+        oldContent = oldContent + stateContent;
+        
         System.out.println(oldContent);
         this.graph = oldContent;
     }
