@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Episode {
     
     private ArrayList<Event> sequenceEvents;
-    private int tamananho;
+    private int tamanho;
     
     public Episode(){
         this.sequenceEvents= new ArrayList<>();
@@ -20,12 +20,12 @@ public class Episode {
         return sequenceEvents;
     } 
 
-    public int getTamananho() {
-        return tamananho;
+    public int getTamanho() {
+        return tamanho;
     }
 
-    public void setTamananho(int tamananho) {
-        this.tamananho = tamananho;
+    public void setTamanho(int tamanho) {
+        this.tamanho = tamanho;
     }
     
 }

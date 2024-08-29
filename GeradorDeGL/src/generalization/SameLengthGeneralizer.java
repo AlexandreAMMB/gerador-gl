@@ -24,8 +24,8 @@ public class SameLengthGeneralizer {
         int count = 0;
         for(int i = 0; i < episodes.size(); i++) {
             if(i == 0) {
-                count = episodes.get(i).getTamananho();
-            } else if(episodes.get(i).getTamananho() != count) {
+                count = episodes.get(i).getTamanho();
+            } else if(episodes.get(i).getTamanho() != count) {
                 return false;
             }            
         }
@@ -37,7 +37,7 @@ public class SameLengthGeneralizer {
         
         InflectionGeneralizer flexgen = new InflectionGeneralizer();
         
-        for (int j = 0; j < episodes.get(0).getTamananho(); j++) {
+        for (int j = 0; j < episodes.get(0).getTamanho(); j++) {
             
             Map<String,Integer> mapLiterais = new HashMap<>();
             Map<String,Integer> mapLemas = new HashMap<>();

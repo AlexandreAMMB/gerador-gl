@@ -16,10 +16,6 @@ import javax.swing.text.Document;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
-import opennlp.tools.sentdetect.SentenceDetectorME;
-import opennlp.tools.sentdetect.SentenceModel;
-import opennlp.tools.tokenize.TokenizerME;
-import opennlp.tools.tokenize.TokenizerModel;
 import view.TelaPrincipalView;
 
 public class TelaPrincipalPresenter {
@@ -180,8 +176,6 @@ public class TelaPrincipalPresenter {
                     YES_NO_OPTION) == 0) {
                 grafosPresenter.runGraph(this.caminhoTexto);
             }
-            
-            //tokenizarSentencas(detectarSentencas());
             
         } catch (Exception ex) {
             ex.printStackTrace();

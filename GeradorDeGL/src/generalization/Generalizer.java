@@ -26,8 +26,8 @@ public class Generalizer {
         int count = 0;
         for(int i = 0; i < episodes.size(); i++) {
             if(i == 0) {
-                count = episodes.get(i).getTamananho();
-            } else if(episodes.get(i).getTamananho() != count) {
+                count = episodes.get(i).getTamanho();
+            } else if(episodes.get(i).getTamanho() != count) {
                 return false;
             }            
         }
@@ -63,7 +63,7 @@ public class Generalizer {
         
         tamanho = episodes.size();
         // Iniciando um map por propriedade para cada posição
-        for(int j = 0; j < episodes.get(0).getTamananho(); j++) {
+        for(int j = 0; j < episodes.get(0).getTamanho(); j++) {
             
             Map<String,Integer> mapLiteral = new HashMap<>();
             Map<String,Integer> mapLema = new HashMap<>();

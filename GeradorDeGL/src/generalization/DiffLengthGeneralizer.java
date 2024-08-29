@@ -83,9 +83,9 @@ public class DiffLengthGeneralizer {
                 
                 Episode episodio = new Episode();
                 
-                episodio.setTamananho(sequenciaGenerica.length);
+                episodio.setTamanho(sequenciaGenerica.length);
                 
-                for(int j = pos; j < pos + episodio.getTamananho(); j++) {
+                for(int j = pos; j < pos + episodio.getTamanho(); j++) {
                     episodio.addSequenceEvents(episodios.get(i).getSequenceEvents().get(j));
                 }
                 
@@ -203,7 +203,7 @@ public class DiffLengthGeneralizer {
         ArrayList<String> eventosEmCodigos = new ArrayList<>();
         
         
-        for(int i = 0; i < episodio.getTamananho(); i++) {
+        for(int i = 0; i < episodio.getTamanho(); i++) {
             eventosEmCodigos.add(generalizarCodigoEvento(episodio.getSequenceEvents().get(i)));
         }
         

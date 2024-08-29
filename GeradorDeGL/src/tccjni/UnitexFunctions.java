@@ -50,10 +50,11 @@ public class UnitexFunctions {
         //String cmdDico = "Dico -t "+ UnitexJni.combineUnitexFileComponentWithQuote(corpusPath,"corpus.snt")+ " -a " + UnitexJni.combineUnitexFileComponentWithQuote(othersResDir,"Alphabet.txt")+" "+UnitexJni.combineUnitexFileComponentWithQuote(workingDicoFileName)+" "+UnitexJni.combineUnitexFileComponent(workingDicoFileName);
         String cmdDico = "Dico -t "+ UnitexJni.combineUnitexFileComponentWithQuote(corpusPath,"corpus.snt")+ " -a " + UnitexJni.combineUnitexFileComponentWithQuote(othersResDir,"Alphabet.txt");
         for(String workingDicoFileName : workingDicoFileNames) {
-            //cmdDico += " " + UnitexJni.combineUnitexFileComponentWithQuote(workingDicoFileName);
-            UnitexJni.execUnitexTool("UnitexTool " + cmdDico + " " + UnitexJni.combineUnitexFileComponentWithQuote(workingDicoFileName)); 
+            cmdDico += " " + UnitexJni.combineUnitexFileComponentWithQuote(workingDicoFileName);
+            //String teste = UnitexJni.combineUnitexFileComponentWithQuote(workingDicoFileName);
+            //UnitexJni.execUnitexTool("UnitexTool " + cmdDico + " " + teste);
         }
-        //UnitexJni.execUnitexTool("UnitexTool " + cmdDico); 
+        UnitexJni.execUnitexTool("UnitexTool " + cmdDico);
     }
       
     public void Txt2Tfst(String othersResDir, String workingGraphFileName,String workingNormGrfFileName,String corpusPath,String corpusText){
@@ -206,13 +207,13 @@ public class UnitexFunctions {
         //String dicoFileName = UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "DELAF_PB_2015.bin");
         //--------------------
         ArrayList<String> dicoFileNames = new ArrayList();
-        dicoFileNames.add(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "DELAF_PB.bin"));
-        dicoFileNames.add(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "abrev-sigl.bin"));
+        //dicoFileNames.add(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "DELAF_PB.bin"));
+        //dicoFileNames.add(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "abrev-sigl.bin"));
+        //dicoFileNames.add(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "dela-en-public.bin"));
+        //dicoFileNames.add(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "DELAF_PB_2015.bin"));
         dicoFileNames.add(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "DELACF_PB.bin"));
         dicoFileNames.add(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "DELAF_PB_2018.bin"));
-        dicoFileNames.add(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "dela-en-public.bin"));
         dicoFileNames.add(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "Dnum.fst2"));
-        dicoFileNames.add(UnitexJni.combineUnitexFileComponent(dictionnaryResDir, "DELAF_PB_2015.bin"));
         String graphFileName = UnitexJni.combineUnitexFileComponent(graphResDir, "AAA-hours-demo.fst2");
         String normGrfFileName = UnitexJni.combineUnitexFileComponent(normResDir, "Norm.fst2");
         String workingGraphFileName;

@@ -51,7 +51,7 @@ public class LerSequenciasDeExemplos {
                         }
                     }
                     
-                    newEpidose.setTamananho(contPosition);
+                    newEpidose.setTamanho(contPosition);
                     GrafosPresenter.addEpisode(newEpidose);
                 }
             } catch (FileNotFoundException ex) {
