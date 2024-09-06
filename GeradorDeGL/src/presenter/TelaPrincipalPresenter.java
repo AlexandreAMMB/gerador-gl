@@ -169,14 +169,18 @@ public class TelaPrincipalPresenter {
     public void gerarGramatica() {
         GrafosPresenter grafosPresenter = new GrafosPresenter();
         try {
-            grafosPresenter.constructGraph();
-            if(JOptionPane.showConfirmDialog(view,
-                    "Deseja utilizar a GL gerada no texto utilizado como base?",
-                    "Executar GL Gerada?", 
-                    YES_NO_OPTION) == 0) {
-                grafosPresenter.runGraph(this.caminhoTexto);
+            if(this.caminhoTexto == null) {
+                JOptionPane.showMessageDialog(view, "Por favor, carregue um texto!", "Erro ao gerar gramática!", JOptionPane.WARNING_MESSAGE);
+            } else {
+                if(grafosPresenter.constructGraph()) {
+                    if(JOptionPane.showConfirmDialog(view,
+                        "Deseja utilizar a GL gerada no texto utilizado como base?",
+                        "Executar GL Gerada?", 
+                        JOptionPane.YES_NO_OPTION) == 0) {
+                        grafosPresenter.runGraph(this.caminhoTexto);
+                    }
+                }
             }
-            
         } catch (Exception ex) {
             ex.printStackTrace();
            JOptionPane.showMessageDialog(null, ex.getMessage());

@@ -104,7 +104,7 @@ public class Event implements Comparable<Event> {
         return Integer.compare(frequency, t.getFrequency());
     }
     
-   public void printEvent() {
+    public void printEvent() {
        
        System.out.println("\n");
        System.out.println("event type " + eventType);
@@ -113,5 +113,5 @@ public class Event implements Comparable<Event> {
        System.out.println("code " + grammaticalCodes);
        System.out.println("inflections " + inflections);
        
-   }
+    }
 }

@@ -18,10 +18,12 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 //import opennlp.tools.postag.POSModel;
 //import opennlp.tools.postag.POSTaggerME;
 //import opennlp.tools.tokenize.SimpleTokenizer;
 import tccjni.UnitexFunctions;
+import view.TelaPrincipalView;
 
 
 public class GrafosPresenter {
@@ -71,7 +73,7 @@ public class GrafosPresenter {
         System.out.println("\n\n");
     }
     
-    public void constructGraph() throws Exception {
+    public boolean constructGraph() throws Exception {
         
         createFSTList();
         /*
@@ -103,13 +105,42 @@ public class GrafosPresenter {
             ex.printStackTrace();
         }
         */
+        
+        boolean retorno = true;
         try {
             LerSequenciasDeExemplos.lerSquencias();          
-            //imprimirEpisodios();
+            imprimirEpisodios();
+            
+            int countUnrecognizedCharacters = 0;
+            ArrayList<String> unrecognizedCharacters = new ArrayList();
             
             EventAdapter adapter = new EventAdapter();            
             for(Episode ep: episodes) {
                adapter.adaptEvent(ep.getSequenceEvents());
+               for(Event event : ep.getSequenceEvents()) {
+                   if(event.getLemma() == null || event.getGrammaticalCodes() == null || event.getInflections() == null) {
+                       unrecognizedCharacters.add(event.getEventType());
+                       countUnrecognizedCharacters++;
+                   }
+               }
+            }
+            
+            if(countUnrecognizedCharacters > 0) {
+                String beginMessage = "", message = "", endMessage = "";
+                if(countUnrecognizedCharacters == 1) {
+                    beginMessage = "O caracter: ";
+                    endMessage = " não é reconhecido no momento!\n Por favor, escolha exemplos sem caracteres parecidos.";
+                } else {
+                    beginMessage = "Os caracteres: ";
+                    endMessage = " não são reconhecidos no momento!\n Por favor, escolha exemplos sem caracteres parecidos.";
+                }
+                
+                for(String character : unrecognizedCharacters) {
+                    message += "'" + character + "', ";
+                }
+                message = message.substring(0, message.length() - 2);
+                JOptionPane.showMessageDialog(null, beginMessage + message + endMessage, "Caracteres não reconhecidos", JOptionPane.WARNING_MESSAGE);
+                return false;
             }
             
             imprimirEpisodios();
@@ -117,80 +148,78 @@ public class GrafosPresenter {
             ArrayList<ArrayList<String>> listTags = new ArrayList();
             ArrayList<String> tags = new ArrayList();
             
-            for(String exemplo : exemplos){
+            for(String exemplo : exemplos) {
                 tags = spacyClient.POStagThis(exemplo);
                 listTags.add(tags);
             }
-            int countEpisode = 0, countEvent = 0;
+            
+            int countEpisode = 0, countEvent = 0, countCode = 0;
             for(Episode episode: episodes) {
-                
                 for(Event event : episode.getSequenceEvents()){
-                    ArrayList<String> eventTypes = new ArrayList();
-                    ArrayList<String> inflections = new ArrayList();
-                    ArrayList<String> grammaticalCodes = new ArrayList();
-                    ArrayList<String> lemmas = new ArrayList();
-                    
-                    String eventType = event.getEventType();
-                    String inflection = event.getInflections();
-                    String grammaticalCode = event.getGrammaticalCodes();
-                    String lemma = event.getLemma();
-                    
-                    eventTypes.addAll(Arrays.asList(eventType.split("|")));
-                    System.out.println("eventTypes" + eventTypes);
-                    inflections.addAll(Arrays.asList(inflection.split("|")));
-                    System.out.println(inflections);
-                    grammaticalCodes.addAll(Arrays.asList(grammaticalCode.split("|")));
-                    System.out.println(grammaticalCodes);
-                    lemmas.addAll(Arrays.asList(lemma.split("|")));
-                    System.out.println(lemmas);
-                    
-                    String eventType_new = "", inflection_new = "", grammaticalCode_new = "", lemma_new = "";
-                    
-                    for(String code : grammaticalCodes){
-                        if(code.equals(listTags.get(countEpisode).get(countEvent))){
-                            eventType_new += eventTypes.get(countEvent) + "|";
-                            inflection_new += inflections.get(countEvent) + "|";
-                            grammaticalCode_new += grammaticalCodes.get(countEvent) + "|";
-                            lemma_new += lemmas.get(countEvent) + "|";
+                    if(!listTags.get(countEpisode).get(countEvent).equals("??")) {
+                        ArrayList<String> eventTypes = new ArrayList();
+                        ArrayList<String> inflections = new ArrayList();
+                        ArrayList<String> grammaticalCodes = new ArrayList();
+                        ArrayList<String> lemmas = new ArrayList();
+
+                        String eventType = event.getEventType();
+                        String inflection = event.getInflections();
+                        String grammaticalCode = event.getGrammaticalCodes();
+                        String lemma = event.getLemma();
+
+                        eventTypes.addAll(Arrays.asList(eventType.split("\\}\\|\\{")));
+                        inflections.addAll(Arrays.asList(inflection.split("\\|")));
+                        grammaticalCodes.addAll(Arrays.asList(grammaticalCode.split("\\|")));
+                        lemmas.addAll(Arrays.asList(lemma.split("\\|")));
+
+                        String eventType_new = "", inflection_new = "", grammaticalCode_new = "", lemma_new = "";
+                        
+                        for(String code : grammaticalCodes){
+                            if(code.contains(listTags.get(countEpisode).get(countEvent))) {
+                                eventType_new = eventType_new + eventTypes.get(countCode) + "}|{";
+                                inflection_new = inflection_new + inflections.get(countCode) + "|";
+                                grammaticalCode_new = grammaticalCode_new + grammaticalCodes.get(countCode) + "|";
+                                lemma_new = lemma_new + lemmas.get(countCode) + "|";
+                            }
+                            countCode++;
                         }
+                        countCode = 0;
+                        
+                        event.setEventType(eventType_new.substring(0, eventType_new.length() - 3));
+                        event.setInflections(inflection_new.substring(0, inflection_new.length() - 1));
+                        event.setGrammaticalCodes(grammaticalCode_new.substring(0, grammaticalCode_new.length() - 1));
+                        event.setLemma(lemma_new.substring(0, lemma_new.length() - 1));
                     }
-                    eventType_new = eventType_new.substring(0, eventType_new.length() - 1);
-                    inflection_new = inflection_new.substring(0, inflection_new.length() - 1);
-                    grammaticalCode_new = grammaticalCode_new.substring(0, grammaticalCode_new.length() - 1);
-                    lemma_new = lemma_new.substring(0, lemma_new.length() - 1);
-                    
-                    event.setEventType(eventType_new);
-                    event.setInflections(inflection_new);
-                    event.setGrammaticalCodes(grammaticalCode_new);
-                    event.setLemma(lemma_new);
                     countEvent++;
                 }
                 countEvent = 0;
                 countEpisode++;
             }
             
-            imprimirEpisodios();
-           
+            //imprimirEpisodios();
+            
             SameLengthGeneralizer sameGeneralizer = new SameLengthGeneralizer();
             DiffLengthGeneralizer diffGeneralizer = new DiffLengthGeneralizer();
             if(sameGeneralizer.isSameLength(episodes)) {
                 ArrayList<Map<String, Integer>> solution = sameGeneralizer.generalize(episodes);
                 graph = new Graph();
                 graph.constructGraph(solution);
-                saveGraph();
+                retorno = saveGraph();
             } else {
                 ArrayList<Map<String,Integer>> solution = sameGeneralizer.generalize(diffGeneralizer.generalize(episodes));
                 graph = new Graph();
                 graph.constructGraph(solution);
-                saveGraph();
+                retorno = saveGraph();
             }
         
         } catch (IOException ex) {
             Logger.getLogger(GrafosPresenter.class.getName()).log(Level.SEVERE, null, ex);
         }
         deleteFiles();
+        return retorno;
     }
-    public void saveGraph() throws IOException {
+    
+    public boolean saveGraph() throws IOException {
         
         DirectorySelectorPresenter selector = new DirectorySelectorPresenter();
         this.selectedPath = selector.selectFolder();
@@ -198,6 +227,7 @@ public class GrafosPresenter {
         if(selectedPath == null){
             selector.dispose();
             selector = null;
+            return false;
         } else {
             File newFile;
             if(selectedPath.toString().contains(".grf")) {
@@ -211,6 +241,7 @@ public class GrafosPresenter {
 
             bWriter.close();
             newFileWriter.close();
+            return true;
         }
     }
 

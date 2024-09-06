@@ -90,7 +90,7 @@ public class Graph {
             xAxle = xAxle + 200;
         }
         //final node
-        oldContent = oldContent + "\" \" " + (200 * (currentStateNumber / 2)) + " 200 " + "0 " + System.lineSeparator();
+        oldContent = oldContent + "\" \" " + (200 * currentStateNumber) + " 200 " + "0 " + System.lineSeparator();
         oldContent = oldContent + stateContent;
         
         System.out.println(oldContent);

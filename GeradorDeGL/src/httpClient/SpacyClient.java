@@ -71,7 +71,12 @@ public class SpacyClient {
         mapaSpacyUnitex.put("VERB", "V");
         mapaSpacyUnitex.put("AUX", "V");
         mapaSpacyUnitex.put("PROPN", "N+Pr");
+        // Tags que o Unitex não identifica são traduziadas para '??' e são ignoradas no processo de análise no método GrafosPresenter.constructGraph
         mapaSpacyUnitex.put("NUM", "Num");
+        mapaSpacyUnitex.put("PART", "??");
+        mapaSpacyUnitex.put("PUNCT", "??");
+        mapaSpacyUnitex.put("SYM", "??");
+        mapaSpacyUnitex.put("X", "??");
         return mapaSpacyUnitex;
     }
     
