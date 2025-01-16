@@ -19,9 +19,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-//import opennlp.tools.postag.POSModel;
-//import opennlp.tools.postag.POSTaggerME;
-//import opennlp.tools.tokenize.SimpleTokenizer;
 import tccjni.UnitexFunctions;
 import view.TelaPrincipalView;
 
@@ -76,35 +73,6 @@ public class GrafosPresenter {
     public boolean constructGraph() throws Exception {
         
         createFSTList();
-        /*
-        String modelPath = "./src/models/pt-pos-perceptron.bin";
-        try (FileInputStream modelStream = new FileInputStream(modelPath)) {
-            POSModel model = new POSModel(modelStream);
-            POSTaggerME posTagger = new POSTaggerME(model);
-            SimpleTokenizer tokenizer = SimpleTokenizer.INSTANCE;
-            
-            ArrayList<String[]> tokensList = new ArrayList();
-            for (String exemplo : this.exemplos) {
-                tokensList.add(tokenizer.tokenize(exemplo));
-            }
-            
-            ArrayList<String[]> tags = new ArrayList();
-            for (String[] tokens : tokensList) {
-                tags.add(posTagger.tag(tokens));
-            }
-
-            for (String[] tokens : tokensList) {
-                int cont = 0;
-                for (int i = 0; i < tokens.length; i++) {
-                    System.out.println(tokens[i] + " - " + tags.get(cont)[i]);
-                }
-                System.out.println();
-            }
-                    
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        */
         
         boolean retorno = true;
         try {
@@ -185,10 +153,12 @@ public class GrafosPresenter {
                         }
                         countCode = 0;
                         
-                        event.setEventType(eventType_new.substring(0, eventType_new.length() - 3));
-                        event.setInflections(inflection_new.substring(0, inflection_new.length() - 1));
-                        event.setGrammaticalCodes(grammaticalCode_new.substring(0, grammaticalCode_new.length() - 1));
-                        event.setLemma(lemma_new.substring(0, lemma_new.length() - 1));
+                        if(eventType_new.length() != 0 && inflection_new.length() != 0 && grammaticalCode_new.length() != 0 && lemma_new.length() != 0) {
+                            event.setEventType(eventType_new.substring(0, eventType_new.length() - 3));
+                            event.setInflections(inflection_new.substring(0, inflection_new.length() - 1));
+                            event.setGrammaticalCodes(grammaticalCode_new.substring(0, grammaticalCode_new.length() - 1));
+                            event.setLemma(lemma_new.substring(0, lemma_new.length() - 1));
+                        }
                     }
                     countEvent++;
                 }
@@ -196,7 +166,7 @@ public class GrafosPresenter {
                 countEpisode++;
             }
             
-            //imprimirEpisodios();
+            imprimirEpisodios();
             
             SameLengthGeneralizer sameGeneralizer = new SameLengthGeneralizer();
             DiffLengthGeneralizer diffGeneralizer = new DiffLengthGeneralizer();
